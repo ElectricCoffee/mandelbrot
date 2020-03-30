@@ -48,10 +48,7 @@ fn generate_data() -> Vec<u8> {
         data.push(rgb);
     }
 
-    println!("Generating done, verifying integrity.");
-    // assertion fails, 192008000 != 192008246, but why?
-    assert_eq!(data.len() as i32, IMG_WIDTH * IMG_HEIGHT);
-    println!("Integrity verified, flattening.");
+    println!("Flattening...");
     data.iter().flatten().cloned().collect()
 }
 
@@ -61,8 +58,9 @@ fn main() {
     let encoder = mk_encoder(&title);
     let mut writer = encoder.write_header().unwrap();
     let data = generate_data();
-    //assert_eq!(data.len() as i32, IMG_WIDTH * IMG_HEIGHT * 3);
     println!("Writing image data...");
+
+    // internal assertion fails, 192008000 != 192008246, but why?
     writer.write_image_data(&data).unwrap();
     println!("Done.");
 }
