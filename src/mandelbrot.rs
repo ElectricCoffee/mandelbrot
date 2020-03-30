@@ -1,10 +1,11 @@
 #![allow(unused)]
 use num::Zero;
 
+const ITERATION_BOUND: usize = 48;
+
 pub type Complex = num::Complex<f64>;
 
-pub const ITERATION_BOUND: usize = 48;
-
+/// The "growth" of the mandelbrot set in iterations, see `explodes_after`.
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum Growth {
     Stable,
@@ -12,22 +13,23 @@ pub enum Growth {
 }
 
 impl Growth {
-    pub fn to_rgb(&self) -> [u8; 3] {
+    /// Converts the `Growth` to a colour depending on how many iterations it takes for it to explode
+    pub fn to_rgb(self) -> [u8; 3] {
         use Growth::*;
         match self {
             Stable => [0, 0, 0],
-            After(n) if *n >= 40 => [0x00, 0x00, 0xff], // blue
-            After(n) if *n >= 36 => [0x00, 0x7f, 0xff], // azure
-            After(n) if *n >= 32 => [0x00, 0xff, 0xff], // cyan
-            After(n) if *n >= 28 => [0x00, 0xff, 0x7f], // spring green
-            After(n) if *n >= 24 => [0x00, 0xff, 0x00], // green
-            After(n) if *n >= 20 => [0x7f, 0xff, 0x00], // chartreuse
-            After(n) if *n >= 16 => [0xff, 0xff, 0x00], // yellow
-            After(n) if *n >= 12 => [0xff, 0x7f, 0x00], // orange
-            After(n) if *n >= 08 => [0xff, 0x00, 0x00], // red
-            After(n) if *n >= 04 => [0xff, 0x00, 0x7f], // rose
-            After(n) if *n >= 02 => [0xff, 0x00, 0xff], // magenta
-            _ => [0x7f, 0x00, 0xff],                    // violet
+            After(n) if n >= 40 => [0x00, 0x00, 0xff], // blue
+            After(n) if n >= 36 => [0x00, 0x7f, 0xff], // azure
+            After(n) if n >= 32 => [0x00, 0xff, 0xff], // cyan
+            After(n) if n >= 28 => [0x00, 0xff, 0x7f], // spring green
+            After(n) if n >= 24 => [0x00, 0xff, 0x00], // green
+            After(n) if n >= 20 => [0x7f, 0xff, 0x00], // chartreuse
+            After(n) if n >= 16 => [0xff, 0xff, 0x00], // yellow
+            After(n) if n >= 12 => [0xff, 0x7f, 0x00], // orange
+            After(n) if n >= 08 => [0xff, 0x00, 0x00], // red
+            After(n) if n >= 04 => [0xff, 0x00, 0x7f], // rose
+            After(n) if n >= 02 => [0xff, 0x00, 0xff], // magenta
+            _ => [0x7f, 0x00, 0xff],                   // violet
         }
     }
 }
@@ -77,13 +79,6 @@ impl Iterator for Mandelbrot {
         self.z = self.z.powi(2) + self.c;
 
         Some(self.z)
-    }
-}
-
-/// Enables converting a complex number directly into a Mandelbrot iterator.
-impl From<Complex> for Mandelbrot {
-    fn from(c: Complex) -> Mandelbrot {
-        Mandelbrot::new(c)
     }
 }
 
