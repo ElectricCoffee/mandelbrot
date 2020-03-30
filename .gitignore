@@ -1,2 +1,4 @@
 /target
 *.png
+
+!mandelbrot_4800x4800.png
