@@ -27,8 +27,7 @@ impl Growth {
 /// and `After(n)`
 pub fn explodes_after(c: Complex64) -> Growth {
     for (i, c) in Mandelbrot::new(c).take(ITERATION_BOUND).enumerate() {
-        let Complex64 { re, im } = c;
-        if re.abs() > 2.0 || im.abs() > 2.0 {
+        if c.norm() > 2.0 {
             return Growth::After(i);
         }
     }
