@@ -6,8 +6,10 @@ use std::{fs::File, io::BufWriter, path::Path};
 /// Scale factor represents how much the coordinate number needs to be scaled by
 /// to fit the constraints of the complex number.
 /// This value should be changed to generate images of other sizes.
+///
+/// **NOTE:** A scale factor of 2000 only works in release mode, use 1200 in debug
 const SCALE_FACTOR: i32 = 2000;
-// const SCALE_FACTOR: i32 = 1200; // works
+// const SCALE_FACTOR: i32 = 1200; // works in debug
 const IMG_HEIGHT: i32 = 4 * SCALE_FACTOR;
 const IMG_WIDTH: i32 = 4 * SCALE_FACTOR;
 const CENTER_X: i32 = IMG_WIDTH / 2;
