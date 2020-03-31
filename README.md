@@ -1,7 +1,7 @@
 # Mandelbrot Illustrator
 A Mandelbrot illustrator written in Rust.
 
-It uses the `num` crate to provide complex numbers and the `png` crate to create the output.
+It uses the [num_complex](https://github.com/rust-num/num-complex) crate to provide complex numbers and the [png](https://github.com/image-rs/image-png) crate to create the output.
 
 The output it generates looks a little something like this:
 
