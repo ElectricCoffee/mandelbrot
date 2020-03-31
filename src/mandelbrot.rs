@@ -1,6 +1,6 @@
 #![allow(unused)]
-use super::color::{BLACK, COLORS};
-const ITERATION_BOUND: usize = 50;
+use super::color::{Color, BLACK, COLORS};
+const ITERATION_BOUND: usize = 500;
 
 use num_complex::Complex64;
 
@@ -16,8 +16,8 @@ impl Growth {
     pub fn to_rgb(self) -> [u8; 3] {
         use Growth::*;
         match self {
-            Stable => BLACK,
-            After(n) => COLORS[(n / 4) % 12],
+            Stable => Color::new(0).to_rgb(),
+            After(n) => Color::new(0x7f).nth(n).unwrap().to_rgb(),
         }
     }
 }
