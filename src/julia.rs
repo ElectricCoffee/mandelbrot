@@ -1,6 +1,6 @@
 #![allow(unused)]
 use super::color::{BLACK, COLORS};
-const ITERATION_BOUND: usize = 50;
+const ITERATION_BOUND: usize = 120;
 
 use num_complex::Complex64;
 
@@ -22,11 +22,21 @@ impl Growth {
     }
 }
 
+pub fn julia_growth(c: Complex64, z: Complex64) -> Growth {
+    for (i, c) in Julia::new(c, z).take(ITERATION_BOUND).enumerate() {
+        if c.norm() > 2.0 {
+            return Growth::After(i);
+        }
+    }
+
+    Growth::Stable
+}
+
 /// Runs the Mandelbrot algorithm for 10 iterations on a complex number `c`, then returns the `Growth`.
 /// It returns `Stable` if the value hasn't exceeded 2.0 in any direction on the complex plane,
 /// and `After(n)`
-pub fn explodes_after(c: Complex64) -> Growth {
-    for (i, c) in Mandelbrot::new(c).take(ITERATION_BOUND).enumerate() {
+pub fn mandelbrot_growth(c: Complex64) -> Growth {
+    for (i, c) in Julia::mandelbrot(c).take(ITERATION_BOUND).enumerate() {
         if c.norm() > 2.0 {
             return Growth::After(i);
         }
@@ -37,29 +47,25 @@ pub fn explodes_after(c: Complex64) -> Growth {
 
 /// Defines a Mandelbrot iterator, which does the iteration of repeatedly applying the function to itself
 #[derive(Debug, Clone, Copy, PartialEq)]
-pub struct Mandelbrot {
+pub struct Julia {
     c: Complex64, // is constant after creation
     z: Complex64,
 }
 
-impl Mandelbrot {
-    pub const fn new(c: Complex64) -> Mandelbrot {
-        Mandelbrot {
+impl Julia {
+    pub const fn new(c: Complex64, z: Complex64) -> Julia {
+        Julia { c, z }
+    }
+
+    pub const fn mandelbrot(c: Complex64) -> Julia {
+        Julia {
             c,
             z: Complex64::new(0.0, 0.0),
         }
     }
-
-    pub const fn from_re(r: f64) -> Mandelbrot {
-        Mandelbrot::new(Complex64::new(r, 0.0))
-    }
-
-    pub const fn from_im(i: f64) -> Mandelbrot {
-        Mandelbrot::new(Complex64::new(0.0, i))
-    }
 }
 
-impl Iterator for Mandelbrot {
+impl Iterator for Julia {
     type Item = Complex64;
 
     fn next(&mut self) -> Option<Self::Item> {
@@ -72,14 +78,19 @@ impl Iterator for Mandelbrot {
 #[cfg(test)]
 mod test {
     use super::*;
+
+    fn from_real(n: f64) -> Complex64 {
+        Complex64::new(n, 0.0)
+    }
+
     #[test]
     fn test_iterator() {
-        let actual: Complex64 = Mandelbrot::from_re(0.0).nth(10).unwrap();
+        let actual: Complex64 = Julia::mandelbrot(from_real(0.0)).nth(10).unwrap();
         let expected: Complex64 = 0.0.into();
 
         assert_eq!(actual, expected);
 
-        let actual: Complex64 = Mandelbrot::from_re(1.0).nth(3).unwrap();
+        let actual: Complex64 = Julia::mandelbrot(from_real(1.0)).nth(3).unwrap();
         let expected: Complex64 = 26.0.into();
 
         assert_eq!(actual, expected);

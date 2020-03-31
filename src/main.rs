@@ -1,5 +1,5 @@
 mod color;
-mod mandelbrot;
+mod julia;
 use num_complex::Complex64;
 use std::{fs::File, io::BufWriter, path::Path};
 
@@ -17,6 +17,11 @@ const CENTER_Y: i32 = IMG_HEIGHT / 2;
 
 ///Scale Factor F is merely a convenience so I don't have to carry "as f64" around everywhere
 const SCALE_FACTORF: f64 = SCALE_FACTOR as f64;
+
+//const JULIA_CONSTANT: Complex64 = Complex64::new(-0.8, 0.156);
+//const JULIA_CONSTANT: Complex64 = Complex64::new(-0.4, 0.6);
+//const JULIA_CONSTANT: Complex64 = Complex64::new(0.285, 0.01);
+const JULIA_CONSTANT: Complex64 = Complex64::new(-0.835, -0.2321);
 
 /// Converts a coordinate to a complex number centred in the middle of the image.
 fn px_to_c(x: i32, y: i32) -> Complex64 {
@@ -54,8 +59,9 @@ fn generate_data() -> Vec<u8> {
 
     for i in 0..(IMG_HEIGHT * IMG_WIDTH) {
         let (x, y) = linear_to_coord(i);
-        let c = px_to_c(x, y);
-        let rgb = mandelbrot::explodes_after(c).to_rgb();
+        let z = px_to_c(x, y);
+        let rgb = julia::julia_growth(JULIA_CONSTANT, z).to_rgb();
+        //let rgb = julia::mandelbrot_growth(z).to_rgb(); // to generate mandelbrot
         data.push(rgb);
     }
 
@@ -64,7 +70,7 @@ fn generate_data() -> Vec<u8> {
 }
 
 fn main() {
-    let title = format!("mandelbrot_{}x{}.png", IMG_WIDTH, IMG_HEIGHT);
+    let title = format!("julia_{}_{}x{}.png", JULIA_CONSTANT, IMG_WIDTH, IMG_HEIGHT);
     println!("Generating {}.", title);
     let encoder = mk_encoder(&title);
     let mut writer = encoder.write_header().unwrap();
