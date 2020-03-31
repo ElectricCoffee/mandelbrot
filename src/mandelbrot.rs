@@ -9,7 +9,7 @@ pub type Complex = num::Complex<f64>;
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum Growth {
     Stable,
-    After(u32),
+    After(usize),
 }
 
 impl Growth {
@@ -41,7 +41,7 @@ pub fn explodes_after(c: Complex) -> Growth {
     for (i, c) in Mandelbrot::new(c).take(ITERATION_BOUND).enumerate() {
         let Complex { re, im } = c;
         if re.abs() > 2.0 || im.abs() > 2.0 {
-            return Growth::After(i as u32);
+            return Growth::After(i);
         }
     }
 
