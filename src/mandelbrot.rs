@@ -1,6 +1,6 @@
 #![allow(unused)]
+use super::color::*;
 use num::Zero;
-
 const ITERATION_BOUND: usize = 48;
 
 pub type Complex = num::Complex<f64>;
@@ -17,19 +17,19 @@ impl Growth {
     pub fn to_rgb(self) -> [u8; 3] {
         use Growth::*;
         match self {
-            Stable => [0, 0, 0],
-            After(n) if n >= 40 => [0x00, 0x00, 0xff], // blue
-            After(n) if n >= 36 => [0x00, 0x7f, 0xff], // azure
-            After(n) if n >= 32 => [0x00, 0xff, 0xff], // cyan
-            After(n) if n >= 28 => [0x00, 0xff, 0x7f], // spring green
-            After(n) if n >= 24 => [0x00, 0xff, 0x00], // green
-            After(n) if n >= 20 => [0x7f, 0xff, 0x00], // chartreuse
-            After(n) if n >= 16 => [0xff, 0xff, 0x00], // yellow
-            After(n) if n >= 12 => [0xff, 0x7f, 0x00], // orange
-            After(n) if n >= 08 => [0xff, 0x00, 0x00], // red
-            After(n) if n >= 04 => [0xff, 0x00, 0x7f], // rose
-            After(n) if n >= 02 => [0xff, 0x00, 0xff], // magenta
-            _ => [0x7f, 0x00, 0xff],                   // violet
+            Stable => BLACK,
+            After(n) if n >= 40 => VIOLET,
+            After(n) if n >= 36 => MAGENTA,
+            After(n) if n >= 32 => ROSE,
+            After(n) if n >= 28 => RED,
+            After(n) if n >= 24 => ORANGE,
+            After(n) if n >= 20 => YELLOW,
+            After(n) if n >= 16 => CHARTREUSE,
+            After(n) if n >= 12 => GREEN,
+            After(n) if n >= 08 => SPRING,
+            After(n) if n >= 04 => CYAN,
+            After(n) if n >= 02 => AZURE,
+            _ => BLUE,
         }
     }
 }
