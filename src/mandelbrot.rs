@@ -86,13 +86,13 @@ mod test {
     use super::*;
     #[test]
     fn test_iterator() {
-        let actual: Complex64 = Mandelbrot::from_re(0f64).nth(10).unwrap();
-        let expected: Complex64 = 0f64.into();
+        let actual: Complex64 = Mandelbrot::from_re(0.0).nth(10).unwrap();
+        let expected: Complex64 = 0.0.into();
 
         assert_eq!(actual, expected);
 
-        let actual: Complex64 = Mandelbrot::from_re(1f64).nth(3).unwrap();
-        let expected: Complex64 = 26f64.into();
+        let actual: Complex64 = Mandelbrot::from_re(1.0).nth(3).unwrap();
+        let expected: Complex64 = 26.0.into();
 
         assert_eq!(actual, expected);
     }
