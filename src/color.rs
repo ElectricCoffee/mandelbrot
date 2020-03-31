@@ -11,3 +11,6 @@ pub const ROSE: [u8; 3] = [0xff, 0x00, 0x7f];
 pub const MAGENTA: [u8; 3] = [0xff, 0x00, 0xff];
 pub const VIOLET: [u8; 3] = [0x7f, 0x00, 0xff];
 pub const BLACK: [u8; 3] = [0x00, 0x00, 0x00];
+pub const COLORS: [[u8; 3]; 12] = [
+    BLUE, AZURE, CYAN, SPRING, GREEN, CHARTREUSE, YELLOW, ORANGE, RED, ROSE, MAGENTA, VIOLET,
+];

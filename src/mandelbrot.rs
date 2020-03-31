@@ -1,6 +1,6 @@
 #![allow(unused)]
-use super::color::*;
-const ITERATION_BOUND: usize = 48;
+use super::color::{BLACK, COLORS};
+const ITERATION_BOUND: usize = 50;
 
 use num_complex::Complex64;
 
@@ -17,18 +17,7 @@ impl Growth {
         use Growth::*;
         match self {
             Stable => BLACK,
-            After(n) if n >= 40 => VIOLET,
-            After(n) if n >= 36 => MAGENTA,
-            After(n) if n >= 32 => ROSE,
-            After(n) if n >= 28 => RED,
-            After(n) if n >= 24 => ORANGE,
-            After(n) if n >= 20 => YELLOW,
-            After(n) if n >= 16 => CHARTREUSE,
-            After(n) if n >= 12 => GREEN,
-            After(n) if n >= 08 => SPRING,
-            After(n) if n >= 04 => CYAN,
-            After(n) if n >= 02 => AZURE,
-            _ => BLUE,
+            After(n) => COLORS[(n / 4) % 12],
         }
     }
 }
