@@ -1,5 +1,6 @@
 mod color;
 mod mandelbrot;
+use num_complex::Complex64;
 use std::{fs::File, io::BufWriter, path::Path};
 
 /// Scale factor represents how much the coordinate number needs to be scaled by
@@ -16,11 +17,11 @@ const CENTER_Y: i32 = IMG_HEIGHT / 2;
 const SCALE_FACTORF: f64 = SCALE_FACTOR as f64;
 
 /// Converts a coordinate to a complex number centred in the middle of the image.
-fn px_to_c(x: i32, y: i32) -> mandelbrot::Complex {
+fn px_to_c(x: i32, y: i32) -> Complex64 {
     let re = (x - CENTER_X) as f64 / SCALE_FACTORF;
     let im = (y - CENTER_Y) as f64 / SCALE_FACTORF;
 
-    mandelbrot::Complex { re, im }
+    Complex64 { re, im }
 }
 
 /// Converts a linear index to a coordinate in the x/y plane.

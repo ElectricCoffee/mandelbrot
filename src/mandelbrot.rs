@@ -1,9 +1,8 @@
 #![allow(unused)]
 use super::color::*;
-use num::Zero;
 const ITERATION_BOUND: usize = 48;
 
-pub type Complex = num::Complex<f64>;
+use num_complex::Complex64;
 
 /// The "growth" of the mandelbrot set in iterations, see `explodes_after`.
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
@@ -37,9 +36,9 @@ impl Growth {
 /// Runs the Mandelbrot algorithm for 10 iterations on a complex number `c`, then returns the `Growth`.
 /// It returns `Stable` if the value hasn't exceeded 2.0 in any direction on the complex plane,
 /// and `After(n)`
-pub fn explodes_after(c: Complex) -> Growth {
+pub fn explodes_after(c: Complex64) -> Growth {
     for (i, c) in Mandelbrot::new(c).take(ITERATION_BOUND).enumerate() {
-        let Complex { re, im } = c;
+        let Complex64 { re, im } = c;
         if re.abs() > 2.0 || im.abs() > 2.0 {
             return Growth::After(i);
         }
@@ -51,29 +50,29 @@ pub fn explodes_after(c: Complex) -> Growth {
 /// Defines a Mandelbrot iterator, which does the iteration of repeatedly applying the function to itself
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Mandelbrot {
-    c: Complex, // is constant after creation
-    z: Complex,
+    c: Complex64, // is constant after creation
+    z: Complex64,
 }
 
 impl Mandelbrot {
-    pub const fn new(c: Complex) -> Mandelbrot {
+    pub const fn new(c: Complex64) -> Mandelbrot {
         Mandelbrot {
             c,
-            z: Complex::new(0.0, 0.0),
+            z: Complex64::new(0.0, 0.0),
         }
     }
 
     pub const fn from_re(r: f64) -> Mandelbrot {
-        Mandelbrot::new(Complex::new(r, 0.0))
+        Mandelbrot::new(Complex64::new(r, 0.0))
     }
 
     pub const fn from_im(i: f64) -> Mandelbrot {
-        Mandelbrot::new(Complex::new(0.0, i))
+        Mandelbrot::new(Complex64::new(0.0, i))
     }
 }
 
 impl Iterator for Mandelbrot {
-    type Item = Complex;
+    type Item = Complex64;
 
     fn next(&mut self) -> Option<Self::Item> {
         self.z = self.z.powi(2) + self.c;
@@ -85,16 +84,15 @@ impl Iterator for Mandelbrot {
 #[cfg(test)]
 mod test {
     use super::*;
-    type Complex = num::Complex<f64>;
     #[test]
     fn test_iterator() {
-        let actual: Complex = Mandelbrot::from_re(0f64).nth(10).unwrap();
-        let expected: Complex = 0f64.into();
+        let actual: Complex64 = Mandelbrot::from_re(0f64).nth(10).unwrap();
+        let expected: Complex64 = 0f64.into();
 
         assert_eq!(actual, expected);
 
-        let actual: Complex = Mandelbrot::from_re(1f64).nth(3).unwrap();
-        let expected: Complex = 26f64.into();
+        let actual: Complex64 = Mandelbrot::from_re(1f64).nth(3).unwrap();
+        let expected: Complex64 = 26f64.into();
 
         assert_eq!(actual, expected);
     }
