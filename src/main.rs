@@ -1,7 +1,11 @@
 mod color;
 mod julia;
+use julia::Julia;
 use num_complex::Complex64;
-use std::{fs::File, io::BufWriter, path::Path};
+use std::io::{BufWriter, Write};
+use std::{fs::File, path::Path};
+
+use png::{EncodingError, Writer};
 
 /// Scale factor represents how much the coordinate number needs to be scaled by
 /// to fit the constraints of the complex number.
@@ -41,7 +45,7 @@ fn linear_to_coord(i: i32) -> (i32, i32) {
 }
 
 /// Creates an encoder with the relevant parameters
-fn mk_encoder(path: &str) -> png::Encoder<BufWriter<File>> {
+fn mk_writer(path: &str) -> Result<Writer<impl Write>, EncodingError> {
     let path = Path::new(path);
     let file = File::create(path).unwrap();
     let w = BufWriter::new(file);
@@ -49,7 +53,7 @@ fn mk_encoder(path: &str) -> png::Encoder<BufWriter<File>> {
     let mut encoder = png::Encoder::new(w, IMG_WIDTH as u32, IMG_HEIGHT as u32);
     encoder.set_color(png::ColorType::RGB);
     encoder.set_depth(png::BitDepth::Eight);
-    encoder
+    encoder.write_header()
 }
 
 /// Runs the mandelbrot algorithm and generates the vector of 8-bit data
@@ -71,8 +75,7 @@ fn generate_data() -> Vec<u8> {
 fn main() {
     let title = format!("julia_{}_{}x{}.png", JULIA_CONSTANT, IMG_WIDTH, IMG_HEIGHT);
     println!("Generating {}.", title);
-    let encoder = mk_encoder(&title);
-    let mut writer = encoder.write_header().unwrap();
+    let mut writer = mk_writer(&title).unwrap();
     let data = generate_data();
     println!("Writing image data...");
 
