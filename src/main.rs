@@ -55,18 +55,16 @@ fn mk_encoder(path: &str) -> png::Encoder<BufWriter<File>> {
 /// that constitutes the colour information in the image
 fn generate_data() -> Vec<u8> {
     println!("Generating image data, hold tight...");
-    let mut data = Vec::new();
-
-    for i in 0..(IMG_HEIGHT * IMG_WIDTH) {
+    let data = (0..(IMG_HEIGHT * IMG_WIDTH)).map(|i| {
         let (x, y) = linear_to_coord(i);
         let z = px_to_c(x, y);
-        let rgb = julia::julia_growth(JULIA_CONSTANT, z).to_rgb();
+        julia::julia_growth(JULIA_CONSTANT, z).to_rgb().to_vec()
         //let rgb = julia::mandelbrot_growth(z).to_rgb(); // to generate mandelbrot
-        data.push(rgb);
-    }
+        // data.push(rgb);
+    });
 
     println!("Flattening...");
-    data.iter().flatten().cloned().collect()
+    data.flatten().collect()
 }
 
 fn main() {
