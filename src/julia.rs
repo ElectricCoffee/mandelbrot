@@ -1,6 +1,5 @@
 #![allow(unused)]
 use super::color::{BLACK, COLORS};
-const ITERATION_BOUND: usize = 120;
 
 use num_complex::Complex64;
 
@@ -47,8 +46,8 @@ impl Julia {
         Julia { power, ..self }
     }
 
-    pub fn get_growth(&self) -> Growth {
-        for (i, c) in self.take(ITERATION_BOUND).enumerate() {
+    pub fn get_growth(&self, iteration_depth: usize) -> Growth {
+        for (i, c) in self.take(iteration_depth).enumerate() {
             if c.norm() >= 2.0 {
                 return Growth::After(i);
             }
