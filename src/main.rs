@@ -21,7 +21,8 @@ const SCALE_FACTORF: f64 = SCALE_FACTOR as f64;
 //const JULIA_CONSTANT: Complex64 = Complex64::new(-0.8, 0.156);
 //const JULIA_CONSTANT: Complex64 = Complex64::new(-0.4, 0.6);
 //const JULIA_CONSTANT: Complex64 = Complex64::new(0.285, 0.01);
-const JULIA_CONSTANT: Complex64 = Complex64::new(-0.835, -0.2321);
+//const JULIA_CONSTANT: Complex64 = Complex64::new(-0.835, -0.2321);
+const JULIA_CONSTANT: Complex64 = Complex64::new(1.0, 0.0);
 
 /// Converts a coordinate to a complex number centred in the middle of the image.
 fn px_to_c(x: i32, y: i32) -> Complex64 {
