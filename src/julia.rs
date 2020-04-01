@@ -21,7 +21,7 @@ impl Growth {
     }
 }
 
-/// Defines a Mandelbrot iterator, which does the iteration of repeatedly applying the function to itself
+/// Defines a Julia iterator, which does the iteration of repeatedly applying the function to itself.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Julia {
     c: Complex64, // is constant after creation
@@ -30,22 +30,25 @@ pub struct Julia {
 }
 
 impl Julia {
+    /// Creates a new Julia Set Iterator.
+    /// `c` is the constant which is added onto the complex number `z`.
+    /// `z` is the initial input to the function fc(z) = z^2 + c, from which Mandelbrot and Julia are typically derived.
     pub const fn new(c: Complex64, z: Complex64) -> Julia {
         Julia { c, z, power: 2 }
     }
 
+    /// Creates a new Julia Set Iterator with the initial `z` value set to 0
     pub const fn new_mandelbrot(c: Complex64) -> Julia {
-        Julia {
-            c,
-            z: Complex64::new(0.0, 0.0),
-            power: 2,
-        }
+        Julia::new(c, Complex64::new(0.0, 0.0))
     }
 
+    /// Sets the power to a different value than 2 for when you want to generate images that aren't the standard set.
+    /// The value is an integer for performance reasons, a floating point power is much slower.
     pub const fn set_pow(self, power: i32) -> Julia {
         Julia { power, ..self }
     }
 
+    /// Runs the iterator for at most `iteration_depth` iterations, after which the point is declared "stable".
     pub fn get_growth(&self, iteration_depth: usize) -> Growth {
         for (i, c) in self.take(iteration_depth).enumerate() {
             if c.norm() >= 2.0 {
