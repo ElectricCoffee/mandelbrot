@@ -79,18 +79,14 @@ impl Iterator for Julia {
 mod test {
     use super::*;
 
-    fn from_real(n: f64) -> Complex64 {
-        Complex64::new(n, 0.0)
-    }
-
     #[test]
     fn test_iterator() {
-        let actual: Complex64 = Julia::mandelbrot(from_real(0.0)).nth(10).unwrap();
+        let actual: Complex64 = Julia::mandelbrot(0.0.into()).nth(10).unwrap();
         let expected: Complex64 = 0.0.into();
 
         assert_eq!(actual, expected);
 
-        let actual: Complex64 = Julia::mandelbrot(from_real(1.0)).nth(3).unwrap();
+        let actual: Complex64 = Julia::mandelbrot(1.0.into()).nth(3).unwrap();
         let expected: Complex64 = 26.0.into();
 
         assert_eq!(actual, expected);
