@@ -1,18 +1,21 @@
 #![allow(unused)]
-use super::color::{BLACK, COLORS};
+use super::color::{Color, BLACK, COLORS};
 
 use num_complex::Complex64;
 
-/// The "growth" of the mandelbrot set in iterations, see `explodes_after`.
+/// The "growth" of the mandelbrot set in iterations, see `Julia::get_growth`.
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum Growth {
+    /// Value returned when a point is considered "stable".
+    /// A value is considered stable when the iterator doesn't reach its iteration depth.
     Stable,
+    /// `After(n)` describes when the iterator "explodes" after `n` steps.
     After(usize),
 }
 
 impl Growth {
     /// Converts the `Growth` to a colour depending on how many iterations it takes for it to explode
-    pub fn to_rgb(self) -> [u8; 3] {
+    pub fn to_rgb(self) -> Color {
         use Growth::*;
         match self {
             Stable => BLACK,

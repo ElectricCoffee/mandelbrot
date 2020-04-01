@@ -1,4 +1,6 @@
+/// Holds the colour constants used in the image drawing process.
 mod color;
+/// Holds the actual logic for calculating the points of the Julia/Mandelbrot sets
 mod julia;
 use julia::Julia;
 use num_complex::Complex64;
@@ -22,6 +24,8 @@ const CENTER_Y: i32 = IMG_HEIGHT / 2;
 ///Scale Factor F is merely a convenience so I don't have to carry "as f64" around everywhere
 const SCALE_FACTORF: f64 = SCALE_FACTOR as f64;
 
+/// The value for `c`, which is constant in Julia sets.
+/// It is not used when generating the Mandelbrot set.
 const JULIA_CONSTANT: Complex64 = Complex64::new(-0.8, 0.156);
 //const JULIA_CONSTANT: Complex64 = Complex64::new(-0.4, 0.6);
 //const JULIA_CONSTANT: Complex64 = Complex64::new(0.285, 0.01);
