@@ -22,11 +22,11 @@ const CENTER_Y: i32 = IMG_HEIGHT / 2;
 ///Scale Factor F is merely a convenience so I don't have to carry "as f64" around everywhere
 const SCALE_FACTORF: f64 = SCALE_FACTOR as f64;
 
-//const JULIA_CONSTANT: Complex64 = Complex64::new(-0.8, 0.156);
+const JULIA_CONSTANT: Complex64 = Complex64::new(-0.8, 0.156);
 //const JULIA_CONSTANT: Complex64 = Complex64::new(-0.4, 0.6);
 //const JULIA_CONSTANT: Complex64 = Complex64::new(0.285, 0.01);
 //const JULIA_CONSTANT: Complex64 = Complex64::new(-0.835, -0.2321);
-const JULIA_CONSTANT: Complex64 = Complex64::new(1.0, 0.0);
+//const JULIA_CONSTANT: Complex64 = Complex64::new(1.0, 0.0);
 
 /// Converts a coordinate to a complex number centred in the middle of the image.
 fn px_to_c(x: i32, y: i32) -> Complex64 {
@@ -58,25 +58,24 @@ fn mk_writer(path: &str) -> Result<Writer<impl Write>, EncodingError> {
 
 /// Runs the mandelbrot algorithm and generates the vector of 8-bit data
 /// that constitutes the colour information in the image
-fn generate_data() -> Vec<u8> {
+fn generate_data(constant: Complex64) -> Vec<u8> {
     println!("Generating image data, hold tight...");
-    let data = (0..(IMG_HEIGHT * IMG_WIDTH)).map(|i| {
-        let (x, y) = linear_to_coord(i);
-        let z = px_to_c(x, y);
-        julia::julia_growth(JULIA_CONSTANT, z).to_rgb().to_vec()
-        //let rgb = julia::mandelbrot_growth(z).to_rgb(); // to generate mandelbrot
-        // data.push(rgb);
-    });
-
-    println!("Flattening...");
-    data.flatten().collect()
+    (0..(IMG_HEIGHT * IMG_WIDTH))
+        .map(|i| {
+            let (x, y) = linear_to_coord(i);
+            let z = px_to_c(x, y);
+            //Julia::new(constant, z).get_growth().to_rgb().to_vec()
+            Julia::as_mandelbrot(z).get_growth().to_rgb().to_vec() // to generate mandelbrot
+        })
+        .flatten()
+        .collect()
 }
 
 fn main() {
     let title = format!("julia_{}_{}x{}.png", JULIA_CONSTANT, IMG_WIDTH, IMG_HEIGHT);
     println!("Generating {}.", title);
     let mut writer = mk_writer(&title).unwrap();
-    let data = generate_data();
+    let data = generate_data(JULIA_CONSTANT);
     println!("Writing image data...");
 
     // internal assertion fails, 192008000 != 192008246, but why?
