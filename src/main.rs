@@ -64,8 +64,8 @@ fn generate_data(constant: Complex64) -> Vec<u8> {
         .map(|i| {
             let (x, y) = linear_to_coord(i);
             let z = px_to_c(x, y);
-            //Julia::new(constant, z).get_growth().to_rgb().to_vec()
-            Julia::as_mandelbrot(z).get_growth().to_rgb().to_vec() // to generate mandelbrot
+            Julia::new(constant, z).get_growth().to_rgb().to_vec()
+            //Julia::as_mandelbrot(z).get_growth().to_rgb().to_vec() // to generate mandelbrot
         })
         .flatten()
         .collect()
