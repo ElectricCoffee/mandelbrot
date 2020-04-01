@@ -35,7 +35,7 @@ impl Julia {
         Julia { c, z, power: 2 }
     }
 
-    pub const fn as_mandelbrot(c: Complex64) -> Julia {
+    pub const fn new_mandelbrot(c: Complex64) -> Julia {
         Julia {
             c,
             z: Complex64::new(0.0, 0.0),
@@ -74,12 +74,12 @@ mod test {
 
     #[test]
     fn test_iterator() {
-        let actual: Complex64 = Julia::as_mandelbrot(0.0.into()).nth(10).unwrap();
+        let actual: Complex64 = Julia::new_mandelbrot(0.0.into()).nth(10).unwrap();
         let expected: Complex64 = 0.0.into();
 
         assert_eq!(actual, expected);
 
-        let actual: Complex64 = Julia::as_mandelbrot(1.0.into()).nth(3).unwrap();
+        let actual: Complex64 = Julia::new_mandelbrot(1.0.into()).nth(3).unwrap();
         let expected: Complex64 = 26.0.into();
 
         assert_eq!(actual, expected);
