@@ -12,7 +12,7 @@ use std::io::{BufWriter, Write};
 use std::{fs::File, path::Path};
 
 /// Converts a coordinate to a complex number centred in the middle of the image.
-fn px_to_c(x: i32, y: i32, cfg: &Config) -> Complex64 {
+fn px_to_c((x, y): (i32, i32), cfg: &Config) -> Complex64 {
     let re = (x - cfg.center_x()) as f64 / cfg.scale_factor_f();
     let im = (y - cfg.center_y()) as f64 / cfg.scale_factor_f();
 
@@ -45,8 +45,8 @@ fn generate_data(cfg: &Config) -> Vec<u8> {
     println!("Generating image data, hold tight...");
     (0..(cfg.img_height() * cfg.img_width()))
         .map(|i| {
-            let (x, y) = linear_to_coord(i, cfg);
-            let z = px_to_c(x, y, cfg);
+            let coord = linear_to_coord(i, cfg);
+            let z = px_to_c(coord, cfg);
             Julia::new(cfg.julia_constant, z)
                 .get_growth(cfg.iteration_depth)
                 .to_rgb()
