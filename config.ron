@@ -1,7 +1,7 @@
 Config(
     scale_factor: 2000,
     // doesn't work if I write Complex(-0.8, 0.156)
-    julia_constant: Complex(-0.8, 0.156),
+    julia_constant: (-0.8, 0.156),
     // julia_constant: (-0.4, 0.6),
     // julia_constant: (0.285, 0.01),
     // julia_constant: (-0.835, -0.2321),
