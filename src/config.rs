@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 use std::error::Error;
 use std::fs::read_to_string;
 
+pub type Color = [u8; 3];
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub struct Config {
     /// Scale factor represents how much the coordinate number needs to be scaled by
@@ -18,6 +19,12 @@ pub struct Config {
     /// The iteration depth.
     /// I.e. how many iterations the algorithm will attempt before determining a given point is "stable".
     pub iteration_depth: usize,
+
+    /// The colour of stability
+    pub stable_color: Color,
+
+    /// The palette of the drawing to be drawn
+    pub palette: Vec<Color>,
 }
 
 impl Config {

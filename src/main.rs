@@ -49,7 +49,7 @@ fn generate_data(cfg: &Config) -> Vec<u8> {
             let z = px_to_c(coord, cfg);
             Julia::new(cfg.julia_constant, z)
                 .get_growth(cfg.iteration_depth)
-                .to_rgb()
+                .to_rgb(cfg)
                 .to_vec()
             //Julia::new_mandelbrot(z).get_growth(cfg.iteration_depth).to_rgb().to_vec() // to generate mandelbrot
         })

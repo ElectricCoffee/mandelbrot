@@ -1,7 +1,6 @@
-#![allow(unused)]
-use super::color::{Color, BLACK, COLORS};
-
 use num_complex::Complex64;
+
+use crate::config::{Color, Config};
 
 /// The "growth" of the mandelbrot set in iterations, see `Julia::get_growth`.
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
@@ -15,11 +14,11 @@ pub enum Growth {
 
 impl Growth {
     /// Converts the `Growth` to a colour depending on how many iterations it takes for it to explode
-    pub fn to_rgb(self) -> Color {
+    pub fn to_rgb(self, config: &Config) -> Color {
         use Growth::*;
         match self {
-            Stable => BLACK,
-            After(n) => COLORS[(n / 4) % 12],
+            Stable => config.stable_color,
+            After(n) => config.palette[(n / 4) % config.palette.len()],
         }
     }
 }
