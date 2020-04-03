@@ -6,8 +6,8 @@ It uses the [num_complex](https://github.com/rust-num/num-complex) crate to prov
 
 The outputs it generates look a little something like this:
 
-![Julia Example](https://raw.githubusercontent.com/ElectricCoffee/mandelbrot/master/julia_-0.8%2B0.156i_8000x8000.png)
 ![Mandelbrot Example](https://raw.githubusercontent.com/ElectricCoffee/mandelbrot/master/mandelbrot_8000x8000.png)
+![Julia Example](https://raw.githubusercontent.com/ElectricCoffee/mandelbrot/master/julia_-0.8%2B0.156i_8000x8000.png)
 
 The hideous colours were chosen because they lie within a value if 127 of each other, making it relatively easy to just "generate" them by hand.
 
