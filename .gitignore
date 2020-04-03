@@ -2,3 +2,4 @@
 *.png
 
 !julia_-0.8+0.156i_8000x8000.png
+!mandelbrot_8000x8000.png
