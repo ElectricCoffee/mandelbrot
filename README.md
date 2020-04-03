@@ -18,10 +18,12 @@ Highest I've made work in debug is 4800×4800 px.
 
 # Configuring the Output
 The output is configured via the `config.ron` file, which is used by the program.
-The file uses three parameters:
+The file uses five parameters:
 * `scale_factor`, the number the pixel in the image is divided by to get the real and imaginary components of the complex number representing that point.
 From the scale factor, the following is derived:
     - image width = 4 × scale factor
     - image height = 4 × scale factor
 * `mode`, has two possible values `Mandelbrot` and `Julia(re, im)`. The Mandelbrot mode will draw the Mandelbrot set, while the Julia mode will draw a Julia set with `c` set to a complex number defined by `re` and `im`.
 * `iteration_depth`, the number of repeated applications of `fc(z) = z² + c` to determine whether or not that point grows past `|fc(z)| = 2`.
+* `stable_color`, which is the colour in RGB that defines the colour of the area deemed stable after `iteration_depth` has been reached.
+* `palette`, a list of RGB colour values, which defines the colours used for the unstable areas when drawing the output.
