@@ -1,11 +1,29 @@
-use num_complex::Complex64;
 use ron::de::from_str;
 use serde::{Deserialize, Serialize};
-use std::error::Error;
-use std::fs::read_to_string;
+use std::{
+    error::Error,
+    fmt::{Display, Formatter},
+    fs::read_to_string,
+};
 
 pub type Color = [u8; 3];
+
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+pub enum Mode {
+    Julia(f64, f64),
+    Mandelbrot,
+}
+
+impl Display for Mode {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Mode::Julia(re, im) => write!(f, "julia_{}{:+}i", re, im),
+            Mode::Mandelbrot => write!(f, "mandelbrot"),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Config {
     /// Scale factor represents how much the coordinate number needs to be scaled by
     /// to fit the constraints of the complex number.
@@ -13,9 +31,10 @@ pub struct Config {
     ///
     /// **NOTE:** A scale factor of 2000 only works in release mode, use 1200 in debug
     pub scale_factor: i32,
-    /// The value for `c`, which is constant in Julia sets.
-    /// It is not used when generating the Mandelbrot set.
-    pub julia_constant: Complex64,
+    /// The Mode has two possible values `Mandelbrot` and `Julia(re, im)`.
+    /// The Mandelbrot mode will draw the image as the Mandelbrot set,
+    /// while the Julia mode will draw a Julia set with `c` set to _re + im i_.
+    pub mode: Mode,
     /// The iteration depth.
     /// I.e. how many iterations the algorithm will attempt before determining a given point is "stable".
     pub iteration_depth: usize,

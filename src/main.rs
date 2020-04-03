@@ -1,10 +1,8 @@
-/// Holds the colour constants used in the image drawing process.
-mod color;
 /// Holds the config struct, which is used to store the deserialisation of config.ron
 mod config;
 /// Holds the actual logic for calculating the points of the Julia/Mandelbrot sets
 mod julia;
-use config::Config;
+use config::{Config, Mode};
 use julia::Julia;
 use num_complex::Complex64;
 use png::{EncodingError, Writer};
@@ -47,11 +45,15 @@ fn generate_data(cfg: &Config) -> Vec<u8> {
         .map(|i| {
             let coord = linear_to_coord(i, cfg);
             let z = px_to_c(coord, cfg);
-            Julia::new(cfg.julia_constant, z)
+            let iterator = match cfg.mode {
+                Mode::Julia(re, im) => Julia::new(Complex64::new(re, im), z),
+                Mode::Mandelbrot => Julia::new_mandelbrot(z),
+            };
+
+            iterator
                 .get_growth(cfg.iteration_depth)
                 .to_rgb(cfg)
                 .to_vec()
-            //Julia::new_mandelbrot(z).get_growth(cfg.iteration_depth).to_rgb().to_vec() // to generate mandelbrot
         })
         .flatten()
         .collect()
@@ -61,8 +63,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Loading config file...");
     let config = Config::load("config.ron")?;
     let title = format!(
-        "julia_{}_{}x{}.png",
-        config.julia_constant,
+        "{}_{}x{}.png",
+        config.mode,
         config.img_width(),
         config.img_height()
     );
