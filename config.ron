@@ -1,10 +1,33 @@
 Config(
+    // image size is 4 × scale factor in both directions
     scale_factor: 2000,
-    // doesn't work if I write Complex(-0.8, 0.156)
-    julia_constant: (-0.8, 0.156),
-    // julia_constant: (-0.4, 0.6),
-    // julia_constant: (0.285, 0.01),
-    // julia_constant: (-0.835, -0.2321),
-    // julia_constant: (1.0, 0.0),
+
+    mode: Julia(-0.8, 0.156),
+    // mode: Julia(-0.4, 0.6),
+    // mode: Julia(0.285, 0.01),
+    // mode: Julia(-0.835, -0.2321),
+    // mode: Julia(1.0, 0.0),
+    // mode: Mandelbrot,
+
     iteration_depth: 120,
+
+    // NB: colours must be specified as a tuple due to a quirk in Serde.
+    stable_color: (0, 0, 0),
+
+    palette: [
+        (0, 0, 255), 
+        (0, 127, 255), 
+        (0, 255, 255), 
+        (0, 255, 127), 
+        (0, 255, 0), 
+        (127, 255, 0), 
+        (255, 255, 0), 
+        (255, 127, 0),
+        (255, 0, 0),
+        (255, 0, 127),
+        (255, 0, 255),
+        (127, 0, 255)],
+
+    // if you just want white
+    //palette: [(255, 255, 255)]
 )
