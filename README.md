@@ -1,12 +1,13 @@
-# Julia Set Illustrator
+# Mandelbrot & Julia Set Illustrator
 
-A Julia illustrator written in Rust.
+A Mandelbrot & Julia Set illustrator written in Rust.
 
 It uses the [num_complex](https://github.com/rust-num/num-complex) crate to provide complex numbers and the [png](https://github.com/image-rs/image-png) crate to create the output.
 
-The output it generates looks a little something like this:
+The outputs it generates look a little something like this:
 
-![img](https://github.com/ElectricCoffee/mandelbrot/blob/julia/julia_-0.8%2B0.156i_8000x8000.png)
+![Julia Example](https://github.com/ElectricCoffee/mandelbrot/blob/julia/julia_-0.8%2B0.156i_8000x8000.png)
+![Mandelbrot Example]()
 
 The hideous colours were chosen because they lie within a value if 127 of each other, making it relatively easy to just "generate" them by hand.
 
@@ -22,5 +23,5 @@ The file uses three parameters:
 From the scale factor, the following is derived:
     - image width = 4 × scale factor
     - image height = 4 × scale factor
-* `julia_constant`, the complex number at which the analysis is performed.
+* `mode`, has two possible values `Mandelbrot` and `Julia(re, im)`. The Mandelbrot mode will draw the Mandelbrot set, while the Julia mode will draw a Julia set with `c` set to a complex number defined by `re` and `im`.
 * `iteration_depth`, the number of repeated applications of `fc(z) = z² + c` to determine whether or not that point grows past `|fc(z)| = 2`.
