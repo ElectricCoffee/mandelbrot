@@ -1,3 +1,4 @@
+mod color;
 /// Holds the config struct, which is used to store the deserialisation of config.ron
 mod config;
 /// Holds the actual logic for calculating the points of the Julia/Mandelbrot sets
@@ -41,6 +42,8 @@ fn mk_writer(path: &str, cfg: &Config) -> Result<Writer<impl Write>, EncodingErr
 /// that constitutes the colour information in the image
 fn generate_data(cfg: &Config) -> Vec<u8> {
     println!("Generating image data, hold tight...");
+    let colors = (cfg.stable_color, cfg.coloring.clone().build());
+    println!("{:?}", colors.1);
     (0..(cfg.img_height() * cfg.img_width()))
         .map(|i| {
             let coord = linear_to_coord(i, cfg);
@@ -52,7 +55,7 @@ fn generate_data(cfg: &Config) -> Vec<u8> {
 
             iterator
                 .get_growth(cfg.iteration_depth)
-                .to_rgb(cfg)
+                .to_rgb(&colors)
                 .to_vec()
         })
         .flatten()

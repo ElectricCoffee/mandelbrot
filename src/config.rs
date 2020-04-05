@@ -6,7 +6,7 @@ use std::{
     fs::read_to_string,
 };
 
-pub type Color = [u8; 3];
+use crate::color::*;
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub enum Mode {
@@ -43,7 +43,7 @@ pub struct Config {
     pub stable_color: Color,
 
     /// The palette of the drawing to be drawn
-    pub palette: Vec<Color>,
+    pub coloring: Coloring,
 }
 
 impl Config {

@@ -14,7 +14,7 @@ Config(
     // NB: colours must be specified as a tuple due to a quirk in Serde.
     stable_color: (0, 0, 0),
 
-    palette: [
+    coloring: Palette([
         (0, 0, 255), 
         (0, 127, 255), 
         (0, 255, 255), 
@@ -26,8 +26,11 @@ Config(
         (255, 0, 0),
         (255, 0, 127),
         (255, 0, 255),
-        (127, 0, 255)],
+        (127, 0, 255)]),
+
+    // for a cool red/blue pattern
+    // coloring: Range(start: (255, 0, 0), end: (0, 0, 255), steps: 12),
 
     // if you just want white
-    //palette: [(255, 255, 255)]
+    //coloring: Palette([(255, 255, 255)])
 )
