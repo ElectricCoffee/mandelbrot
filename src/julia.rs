@@ -1,7 +1,6 @@
 use num_complex::Complex64;
 
 use crate::color::Color;
-use crate::config::Config;
 
 /// The "growth" of the mandelbrot set in iterations, see `Julia::get_growth`.
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]

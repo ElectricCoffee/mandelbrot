@@ -11,6 +11,9 @@ Config(
 
     iteration_depth: 120,
 
+    // try a power different from 2
+    // power: -2,
+
     // NB: colours must be specified as a tuple due to a quirk in Serde.
     stable_color: (0, 0, 0),
 

@@ -43,14 +43,13 @@ fn mk_writer(path: &str, cfg: &Config) -> Result<Writer<impl Write>, EncodingErr
 fn generate_data(cfg: &Config) -> Vec<u8> {
     println!("Generating image data, hold tight...");
     let colors = (cfg.stable_color, cfg.coloring.clone().build());
-    println!("{:?}", colors.1);
     (0..(cfg.img_height() * cfg.img_width()))
         .map(|i| {
             let coord = linear_to_coord(i, cfg);
             let z = px_to_c(coord, cfg);
             let iterator = match cfg.mode {
-                Mode::Julia(re, im) => Julia::new(Complex64::new(re, im), z),
-                Mode::Mandelbrot => Julia::new_mandelbrot(z),
+                Mode::Julia(re, im) => Julia::new(Complex64::new(re, im), z).set_pow(cfg.power),
+                Mode::Mandelbrot => Julia::new_mandelbrot(z).set_pow(cfg.power),
             };
 
             iterator

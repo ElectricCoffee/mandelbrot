@@ -31,6 +31,11 @@ pub struct Config {
     ///
     /// **NOTE:** A scale factor of 2000 only works in release mode, use 1200 in debug
     pub scale_factor: i32,
+    /// The integer power to which `z` is raised.
+    /// By default this is set to 2 for the classic fc(z) = z² + c.
+    /// Currently only integer powers are supported due to performance.
+    #[serde(default = "default_power")]
+    pub power: i32,
     /// The Mode has two possible values `Mandelbrot` and `Julia(re, im)`.
     /// The Mandelbrot mode will draw the image as the Mandelbrot set,
     /// while the Julia mode will draw a Julia set with `c` set to _re + im i_.
@@ -44,6 +49,10 @@ pub struct Config {
 
     /// The palette of the drawing to be drawn
     pub coloring: Coloring,
+}
+
+const fn default_power() -> i32 {
+    2
 }
 
 impl Config {
