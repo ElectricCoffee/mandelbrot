@@ -1,3 +1,4 @@
+/// Holds the `Coloring` enum and associated palette builder function.
 mod color;
 /// Holds the config struct, which is used to store the deserialisation of config.ron
 mod config;
@@ -12,7 +13,7 @@ use mode::Mode;
 use num_complex::Complex64;
 use png::{EncodingError, Writer};
 use std::io::{BufWriter, Write};
-use std::{fs::File, path::Path};
+use std::{error::Error, fs::File, path::Path};
 
 /// Converts a coordinate to a complex number centred in the middle of the image.
 fn px_to_c((x, y): (i32, i32), cfg: &Config) -> Complex64 {
@@ -65,7 +66,7 @@ fn generate_data(cfg: &Config) -> Vec<u8> {
         .collect()
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() -> Result<(), Box<dyn Error>> {
     println!("Loading config file...");
     let config = Config::load("config.ron")?;
     let title = format!(
@@ -80,6 +81,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Writing image data...");
 
     // internal assertion fails, 192008000 != 192008246, but why?
+    // UPDATE: supposedly fixed in the next version of the png crate
     writer.write_image_data(&data).unwrap();
     println!("Done.");
 

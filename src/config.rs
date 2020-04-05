@@ -5,6 +5,7 @@ use std::{error::Error, fs::read_to_string};
 use crate::color::*;
 use crate::mode::*;
 
+/// Struct that mimics the structure of the config file.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Config {
     /// Scale factor represents how much the coordinate number needs to be scaled by
@@ -38,6 +39,7 @@ const fn default_power() -> i32 {
 }
 
 impl Config {
+    /// Loads a RON file from `path` and tries to convert it to a `Config` struct instance.
     pub fn load(path: &str) -> Result<Config, Box<dyn Error>> {
         let cfg = read_to_string(path)?;
         let res = from_str::<Config>(&cfg)?;
