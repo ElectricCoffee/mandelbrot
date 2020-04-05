@@ -3,8 +3,12 @@ mod color;
 mod config;
 /// Holds the actual logic for calculating the points of the Julia/Mandelbrot sets
 mod julia;
-use config::{Config, Mode};
+/// Holds the given evaluation mode for the program, i.e. `Mandelbrot` or `Julia`
+mod mode;
+
+use config::Config;
 use julia::Julia;
+use mode::Mode;
 use num_complex::Complex64;
 use png::{EncodingError, Writer};
 use std::io::{BufWriter, Write};

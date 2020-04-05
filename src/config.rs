@@ -1,27 +1,9 @@
 use ron::de::from_str;
 use serde::{Deserialize, Serialize};
-use std::{
-    error::Error,
-    fmt::{Display, Formatter},
-    fs::read_to_string,
-};
+use std::{error::Error, fs::read_to_string};
 
 use crate::color::*;
-
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
-pub enum Mode {
-    Julia(f64, f64),
-    Mandelbrot,
-}
-
-impl Display for Mode {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Mode::Julia(re, im) => write!(f, "julia_{}{:+}i", re, im),
-            Mode::Mandelbrot => write!(f, "mandelbrot"),
-        }
-    }
-}
+use crate::mode::*;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Config {
